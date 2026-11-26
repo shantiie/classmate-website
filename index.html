@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassMate | Student Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="loginScreen" class="login-screen">
+    <form id="loginForm" class="login-card">
+      <div class="brand-mark">C</div>
+      <p class="eyebrow">YOUR STUDENT COMPANION</p>
+      <h1>Welcome to <span>ClassMate</span></h1>
+      <p class="muted">Sign in to view your schedule, reminders, and quizzes.</p>
+      <label>Full name<input id="studentName" required placeholder="e.g. Juan Dela Cruz"></label>
+      <div class="two-col">
+        <label>Course<input id="studentCourse" required placeholder="e.g. BSIE"></label>
+        <label>Section<input id="studentSection" required placeholder="e.g. 1B"></label>
+      </div>
+      <label>Password<input id="studentPassword" type="password" required minlength="4" placeholder="At least 4 characters"></label>
+      <button class="btn primary full" type="submit">Enter ClassMate</button>
+      <small class="muted">Demo login: your details are saved only in this browser.</small>
+    </form>
+  </div>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark small">C</div><span>ClassMate</span></div>
+      <nav>
+        <button class="nav-link active" data-page="dashboard">▦ <span>Dashboard</span></button>
+        <button class="nav-link" data-page="timetable">▤ <span>My Timetable</span></button>
+        <button class="nav-link" data-page="events">▣ <span>Event Board</span></button>
+        <button class="nav-link" data-page="quiz">✎ <span>Quiz Arena</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="profile-dot" id="profileInitial">S</div>
+        <div><strong id="sideName">Student</strong><small id="sideCourse">Course / Section</small></div>
+        <button id="logoutBtn" class="logout" title="Log out">↪</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow">STUDENT WORKSPACE</p><h2 id="pageTitle">Dashboard</h2></div>
+        <div class="top-actions"><span class="date-pill" id="todayDate"></span><button class="btn outline" id="notifyBtn">Enable reminders</button></div>
+      </header>
+
+      <section id="dashboardPage" class="page">
+        <div class="welcome-panel">
+          <div><p class="eyebrow light">HELLO, STUDENT!</p><h1>Ready for a productive day?</h1><p id="welcomeText">Your classes and study tools, all in one place.</p></div>
+          <div class="welcome-icon">✦</div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-icon red">▤</span><div><small>Classes today</small><h2 id="classCount">0</h2></div></article>
+          <article class="stat-card"><span class="stat-icon green">◷</span><div><small>Next class</small><h2 id="nextClassStat">None</h2></div></article>
+          <article class="stat-card"><span class="stat-icon yellow">✎</span><div><small>Quiz subjects</small><h2>4</h2></div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">YOUR SCHEDULE</p><h3>Next class</h3></div><button class="text-btn" data-goto="timetable">View timetable →</button></div><div id="nextClassCard" class="next-class"><p class="muted">Add a class to your timetable to get started.</p></div></article>
+          <article class="panel"><div class="panel-heading"><div><p class="eyebrow">UPDATES</p><h3>Latest announcements</h3></div><button class="text-btn" data-goto="events">View all →</button></div><div id="dashboardEvents"></div></article>
+        </div>
+      </section>
+
+      <section id="timetablePage" class="page hidden">
+        <div class="section-intro"><div><p class="eyebrow">PLAN YOUR WEEK</p><h3>Your personal timetable</h3><p class="muted">Add your class details and see what's coming up.</p></div></div>
+        <form id="classForm" class="panel form-grid">
+          <label>Subject<input id="classSubject" required placeholder="e.g. Calculus"></label>
+          <label>Day<select id="classDay"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></label>
+          <label>Start time<input id="classStart" type="time" required></label>
+          <label>End time<input id="classEnd" type="time" required></label>
+          <label>Room<input id="classRoom" placeholder="e.g. Room 308"></label>
+          <button class="btn primary" type="submit">+ Add class</button>
+        </form>
+        <div class="panel"><div class="panel-heading"><h3>Class list</h3><span class="muted">Saved on this device</span></div><div id="classList" class="list"></div></div>
+      </section>
+
+      <section id="eventsPage" class="page hidden">
+        <div class="section-intro"><div><p class="eyebrow">KEEP UPDATED</p><h3>Event & announcement board</h3><p class="muted">Personal reminders and sample campus updates.</p></div></div>
+        <form id="eventForm" class="panel form-grid">
+          <label>Announcement title<input id="eventTitle" required placeholder="Event or reminder"></label>
+          <label>Date<input id="eventDate" type="date" required></label>
+          <label class="wide">Details<input id="eventDetails" placeholder="Add a short description"></label>
+          <button class="btn primary" type="submit">+ Add announcement</button>
+        </form>
+        <div id="eventList" class="event-grid"></div>
+      </section>
+
+      <section id="quizPage" class="page hidden">
+        <div class="section-intro"><div><p class="eyebrow">PRACTICE AND IMPROVE</p><h3>Quiz Arena</h3><p class="muted">Choose a subject or create your own short quiz.</p></div></div>
+        <div class="quiz-layout"><div><div id="subjectGrid" class="subject-grid"></div><div class="panel create-panel"><h3>Create your own quiz</h3><form id="customQuizForm">
+          <label>Quiz title<input id="customTitle" required placeholder="e.g. Week 1 Review"></label>
+          <label>Question<input id="customQuestion" required placeholder="Your question"></label>
+          <div class="two-col"><label>Correct answer<input id="customAnswer" required></label><label>Wrong answer<input id="customWrong" required></label></div>
+          <button class="btn primary" type="submit">Save custom quiz</button>
+        </form></div></div><div class="panel quiz-stage" id="quizStage"><div class="empty-quiz"><span>✎</span><h3>Choose a quiz to begin</h3><p class="muted">Each ready-made subject has 25 practice questions.</p></div></div></div>
+      </section>
+      <footer>ClassMate <span>•</span> A student companion prototype</footer>
+    </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
